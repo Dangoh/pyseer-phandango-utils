@@ -19,7 +19,7 @@ This script:
 Typical usage:
   python pyseer_to_phandango_plot.py --pyseer infection_SNPs_lmm.txt --out infection_SNPs_lmm.plot
 
-Author: (you)
+Author: Daniel Golparian
 """
 
 import argparse
