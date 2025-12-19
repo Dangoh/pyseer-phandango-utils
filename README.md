@@ -75,16 +75,12 @@ python pyseer_to_phandango_plot.py \
   --out infection_SNPs_lmm.plot
 ```
 This uses default assumptions:
-
 variant column name
-
 _ as delimiter
-
 second field (index 1) as genomic position
-
 auto-detection of the p-value column
 
-Reproducing the original bash workflow (recommended)
+# Reproducing the original bash workflow (recommended)
 The following command reproduces the original shell-based pipeline used in the analysis:
 
 python pyseer_to_phandango_plot.py \
@@ -105,3 +101,49 @@ assigning constant values for CHR, SNP, and r^2.
 
 # Variant formats with different delimiters
 If variants use a different delimiter or layout:
+```bash
+python pyseer_to_phandango_plot.py \
+  --pyseer results.txt \
+  --out results.plot \
+  --variant-delim "|" \
+  --bp-field-index 1
+```
+
+# Specifying a p-value column explicitly
+If auto-detection fails:
+```bash
+python pyseer_to_phandango_plot.py \
+  --pyseer results.txt \
+  --out results.plot \
+  --pcol lrt-pvalue
+```
+
+# Output
+
+The script writes a single output file:
+*.plot — Phandango-compatible GWAS track
+This file can be loaded directly into Phandango together with:
+* a reference genome annotation (GFF or GenBank),
+* a phylogenetic tree,
+* associated metadata.
+
+# Notes and safeguards
+
+Extremely small p-values may appear as 0 in Pyseer output due to rounding.
+These are handled safely and converted to large -log10(p) values.
+Rows with non-parsable genomic positions or invalid p-values can be skipped using:
+--skip-nonpositive-p
+--allow-missing-bp
+The script does not alter statistical results and should be considered a
+visualisation utility only.
+
+# Example workflow context
+
+This script was used to visualise SNP-level GWAS results generated with Pyseer
+(using both linear models and linear mixed models) in Phandango, alongside
+recombination-filtered phylogenies and reference genome annotations.
+
+# License
+MIT License
+
+# Citation
