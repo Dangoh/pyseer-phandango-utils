@@ -1,64 +1,3 @@
-### Basic usage
-
-```bash
-python pyseer_to_phandango_plot.py \
-  --pyseer infection_SNPs_lmm.txt \
-  --out infection_SNPs_lmm.plot
-This uses default assumptions:
-
-variant column name
-
-_ as delimiter
-
-second field (index 1) as genomic position
-
-auto-detection of the p-value column
-
-markdown
-Kopiera kod
-
-You copy:
-- the ```bash
-- the command
-- the closing ```
-
-### You do NOT copy
-- the word “yaml” in the corner
-- the green explanatory sentence if it appears **outside** a code block
-- any UI framing
-
----
-
-## Safest workflow (recommended)
-
-1. Open `README.md` in **Edit mode** (pencil icon on GitHub)
-2. Select **all text** (`Ctrl+A`)
-3. Paste **that** into your local `README.md`
-4. Commit
-
-This guarantees you get **only the source Markdown**, not rendered artifacts.
-
----
-
-## Sanity check (1 second)
-
-After pasting:
-- You should see lots of `#`, `##`, and triple backticks
-- If you see no backticks → you copied the rendered view (wrong
-
-
-
-
-
-Du sade:
-listen give me the whole README in a markdown... nothing in the prompt here
-!
-
-
-
-ChatGPT sade:
-markdown
-Kopiera kod
 # Pyseer → Phandango utilities
 
 Utilities to convert **Pyseer GWAS output** into **Phandango-compatible `.plot` tracks**
@@ -74,12 +13,8 @@ and plotting.
 ## Background
 
 Pyseer outputs genome-wide association results as tab-delimited tables, whereas
-Phandango expects GWAS or score tracks in a specific `.plot` format:
+Phandango expects GWAS or score tracks in a specific `.plot` format: #CHR SNP BP minLOG10(P) log10(p) r^2
 
-#CHR SNP BP minLOG10(P) log10(p) r^2
-
-yaml
-Kopiera kod
 
 This utility converts Pyseer SNP-level association output (from linear models or
 linear mixed models) into a format that can be loaded directly into Phandango
@@ -125,8 +60,6 @@ Example variant format:
 contig_position_reference_alternative
 AE017143.1_12345_A_T
 
-yaml
-Kopiera kod
 
 In this example, the genomic position (`BP`) is `12345`.
 
@@ -140,6 +73,7 @@ In this example, the genomic position (`BP`) is `12345`.
 python pyseer_to_phandango_plot.py \
   --pyseer infection_SNPs_lmm.txt \
   --out infection_SNPs_lmm.plot
+
 This uses default assumptions:
 
 variant column name
@@ -153,8 +87,6 @@ auto-detection of the p-value column
 Reproducing the original bash workflow (recommended)
 The following command reproduces the original shell-based pipeline used in the analysis:
 
-bash
-Kopiera kod
 python pyseer_to_phandango_plot.py \
   --pyseer infection_SNPs_lmm.txt \
   --out infection_SNPs_lmm.plot \
@@ -164,67 +96,12 @@ python pyseer_to_phandango_plot.py \
   --variant-delim "_" \
   --bp-field-index 1 \
   --skip-nonpositive-p
+  
 This corresponds to:
-
 extracting BP using cut -d"_" -f2,
-
 using column 4 (lrt-pvalue) as the p-value,
-
 computing -log10(p),
-
 assigning constant values for CHR, SNP, and r^2.
 
-Variant formats with different delimiters
+# Variant formats with different delimiters
 If variants use a different delimiter or layout:
-
-bash
-Kopiera kod
-python pyseer_to_phandango_plot.py \
-  --pyseer results.txt \
-  --out results.plot \
-  --variant-delim "|" \
-  --bp-field-index 1
-Specifying a p-value column explicitly
-If auto-detection fails:
-
-bash
-Kopiera kod
-python pyseer_to_phandango_plot.py \
-  --pyseer results.txt \
-  --out results.plot \
-  --pcol lrt-pvalue
-Output
-The script writes a single output file:
-
-*.plot — Phandango-compatible GWAS track
-
-This file can be loaded directly into Phandango together with:
-
-a reference genome annotation (GFF or GenBank),
-
-a phylogenetic tree,
-
-associated metadata.
-
-Notes and safeguards
-Extremely small p-values may appear as 0 in Pyseer output due to rounding.
-These are handled safely and converted to large -log10(p) values.
-
-Rows with non-parsable genomic positions or invalid p-values can be skipped using:
-
---skip-nonpositive-p
-
---allow-missing-bp
-
-The script does not alter statistical results and should be considered a
-visualisation utility only.
-
-Example workflow context
-This script was used to visualise SNP-level GWAS results generated with Pyseer
-(using both linear models and linear mixed models) in Phandango, alongside
-recombination-filtered phylogenies and reference genome annotations.
-
-License
-MIT License
-
-Citation
