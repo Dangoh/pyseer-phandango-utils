@@ -67,7 +67,7 @@ In this example, the genomic position (`BP`) is `12345`.
 
 ## Usage
 
-### Basic usage
+## Basic usage
 
 ```bash
 python pyseer_to_phandango_plot.py \
