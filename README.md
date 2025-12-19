@@ -73,7 +73,7 @@ In this example, the genomic position (`BP`) is `12345`.
 python pyseer_to_phandango_plot.py \
   --pyseer infection_SNPs_lmm.txt \
   --out infection_SNPs_lmm.plot
-
+```
 This uses default assumptions:
 
 variant column name
